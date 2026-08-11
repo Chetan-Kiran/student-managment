@@ -1,6 +1,7 @@
 package com.example.student_api.Controller;
 
 import com.example.student_api.model.Student;
+import com.example.student_api.service.StudentService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/students")
 public class StudentController {
+
+    private final StudentService studentService;
+
+    public StudentController(StudentService studentService){
+        this.studentService = studentService;
+    }
     
     @GetMapping
     public String getStudents(){
@@ -36,6 +43,6 @@ public class StudentController {
     //} 
     @PostMapping
     public Student addStudent(@RequestBody Student student){
-        return student;
+        return studentService.addStudent(student);
     }
 }
