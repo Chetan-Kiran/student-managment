@@ -3,6 +3,9 @@ package com.example.student_api.Controller;
 import com.example.student_api.model.Student;
 import com.example.student_api.service.StudentService;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +25,8 @@ public class StudentController {
     }
     
     @GetMapping
-    public String getStudents(){
-        return "All Students";
+    public List<Student> getStudents(){
+        return studentService.getStudents();
     }
 
     @GetMapping("/{id}")
@@ -44,5 +47,13 @@ public class StudentController {
     @PostMapping
     public Student addStudent(@RequestBody Student student){
         return studentService.addStudent(student);
+    }
+
+    @DeleteMapping("/{name}")
+    public String delectStudent(@PathVariable String name){
+
+        studentService.delectStudent(name);
+
+        return "Student delect";
     }
 }
