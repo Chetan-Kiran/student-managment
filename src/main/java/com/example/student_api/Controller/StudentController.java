@@ -5,13 +5,14 @@ import com.example.student_api.service.StudentService;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,13 +31,8 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public String getStudentid(@PathVariable int id){
-        return "Student Id : "+ id;
-    }
-
-    @GetMapping("/search")
-    public String search(@RequestParam String name){
-        return "Student Name :"+ name;
+    public Student getStudent(@PathVariable Long id){
+        return studentService.getStudent(id);
     }
 
     // in postman http://localhost:8989/students
@@ -49,11 +45,16 @@ public class StudentController {
         return studentService.addStudent(student);
     }
 
-    @DeleteMapping("/{name}")
-    public String delectStudent(@PathVariable String name){
+    @DeleteMapping("/{id}")
+    public String delectStudent(@PathVariable Long id){
 
-        studentService.delectStudent(name);
+        studentService.delectStudent(id);
 
         return "Student delect";
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id , @RequestBody Student studentDetails){
+        Student updatedStudent = studentService.updateStudent(id, studentDetails);
+        return ResponseEntity.ok(updatedStudent);
     }
 }
